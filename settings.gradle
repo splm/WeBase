@@ -1,0 +1,1 @@
+include ':app', ':WeBase-core', ':weannotation', ':weannotation-processor'
