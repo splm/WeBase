@@ -6,6 +6,7 @@
 
 - [更新日志](update-log.md)
 - [设计思路](design.md)
+- [WeCode的使用](WeCodeManual.md)
 
 参考资料：
 
@@ -139,45 +140,7 @@
 
 ###### 动态生成Java类文件的语法简化
 
-- d)自动构建Java类语法
-
-> 之前
->
-> ```java
-> private void generateHelloworld() throws IOException{
->         MethodSpec main = MethodSpec.methodBuilder("main") //main代表方法名
->                     .addModifiers(Modifier.PUBLIC,Modifier.STATIC)//Modifier 修饰的关键字
->                 .addParameter(String[].class, "args") //添加string[]类型的名为args的参数
->                     .addStatement("$T.out.println($S)", System.class,"Hello World")//添加代码，这里$T和$S后面会讲，这里其实就是添加了System,out.println("Hello World");
->                 .build();
->                 TypeSpec typeSpec = TypeSpec.classBuilder("HelloWorld")//HelloWorld是类名
->                 .addModifiers(Modifier.FINAL,Modifier.PUBLIC)
->                 .addMethod(main)  //在类中添加方法
->                 .build();
->         JavaFile javaFile = JavaFile.builder("com.example.helloworld", typeSpec)
->                 .build();
->         javaFile.writeTo(System.out);
->     }
-> ```
-
-`上面代码片段来自网络`
-
-
-
-> 现在：
->
-> ```java
-> WeVar className = new WeVar(WeMod.PRIVATE+WeMod.STATIC,TARGET_PACKAGE_NAME,"We" + cName + writeSuffix(),"instance");
-> WeCodeModel weCodeModel = new WeCodeModel();//创建CodeModel代码构造器实例
-> WeClass weClass = weCodeModel.createClass("We" + cName + writeSuffix());//创建类
-> weClass.addInterface(IWorkersProxy.class);//实现接口
-> weClass.declareVar(WeMod.PUBLIC, p1st.getPackageName(), p1st.getSimpleName(), MDATABINGNAME);//定义全局变量
-> weClass.canBeSingleton(className);//创建一个单例模式
-> ```
-
-说明：引入这个功能，更多的是为了让生成Java类与Java代码的过程更加人性化，更贴近编程思维，在使用JavaPoet生成Java代码时，需要先构建类中的最小单元变量，方法体，方法签名，然后再将这些整合到类中，而我们通常的编写习惯是创建类文件，声明类，变量，方法，方法签名。
-
-
+- 如果需要自定义注解插件或者有自动构建Java类的需求可以使用，详细参考[WeCode的使用](WeCodeManual.md)
 
 .....
 

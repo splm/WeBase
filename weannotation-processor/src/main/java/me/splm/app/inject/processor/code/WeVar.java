@@ -28,7 +28,7 @@ public class WeVar {
      * @param value
      */
     public WeVar(Object value) {
-        this.mIllusionValue=value;
+        init(value);
     }
 
     public WeVar(int modifier,String pkg,String typename,String fieldName) {
@@ -53,14 +53,15 @@ public class WeVar {
         WeMod weMod=new WeMod();
         List<Modifier> list=weMod.resolve(mModifier);
         Modifier[] modifiers=list.toArray(new Modifier[]{});
-        return this.mFieldSpec=FieldSpec.builder(toClassType(),mFieldName, modifiers).build();//TODO need to modify modifier.
+        return this.mFieldSpec=FieldSpec.builder(toClassType(),mFieldName, modifiers).build();
     }
 
     public ParameterSpec toParameterSpec(){
         return ParameterSpec.builder(toClassType(),mFieldName).build();
     }
 
-    public void init(Object object){
+    public void init(Object value){
+        this.mIllusionValue=value;
     }
 
     public String getFieldName() {

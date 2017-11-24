@@ -7,6 +7,7 @@ import com.squareup.javapoet.MethodSpec;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.splm.app.inject.processor.exception.NotDuplicateException;
 import me.splm.app.inject.processor.log.Logger;
 import me.splm.app.inject.processor.log.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class WeBlock {
         WeVar weVar = new WeVar(modifier, pkg, name, fieldName);
         boolean isContain = weVarMap.containsKey(fieldName);
         if (isContain) {
-            //TODO throw a new exception
+            throw new NotDuplicateException("The field called "+ fieldName +" can't be declared repeatly.");
         }
         weVarMap.put(fieldName, weVar);
         return weVar;
@@ -78,8 +79,6 @@ public class WeBlock {
     }
 
     public void injectMethod(CodeBlock codeBlock) {
-        Logger logger = LoggerFactory.getLogger(WeCodeModel.class);
-        logger.info(mBuilder + "*****************11111111111");
         mBuilder.addCode(codeBlock);
     }
 }
