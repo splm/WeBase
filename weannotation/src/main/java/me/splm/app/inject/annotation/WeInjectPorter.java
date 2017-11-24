@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface WeInjectPorter {
     int layoutId();
 
-    Wheather noTitle() default Wheather.NO;//default value is not showing title
+    Whether noTitle() default Whether.NO;//default value is not showing title
 
-    Wheather fullScreen() default Wheather.NO;//defaut is not fullScreen
+    Whether fullScreen() default Whether.NO;//defaut is not fullScreen
 }

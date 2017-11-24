@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.lang.model.element.Modifier;
 
+import me.splm.app.inject.processor.component.GenerateActionKit;
+
 public class WeClass {
     private String mClassName;
     private WeBlock weBlock;
@@ -61,20 +63,9 @@ public class WeClass {
         return mBuilder;
     }
 
-    public void canBeSingleton(WeVar inst){
-        WeVar instance=this.declareVar(inst);
-        CodeBlock codeBlock=CodeBlock.builder()
-                .beginControlFlow("if($N==null)", instance.toFieldSpec())
-                .beginControlFlow("synchronized($T.class)", instance.toClassType())
-                .beginControlFlow("if($N==null)", instance.toFieldSpec())
-                .addStatement("$N=new $T()", instance.toFieldSpec(), instance.toClassType())
-                .endControlFlow()
-                .endControlFlow()
-                .endControlFlow()
-                .addStatement("return $N", instance.toFieldSpec())
-                .build();
-        WeMethod getInstance=this.declareMethod(WeMod.PUBLIC+WeMod.STATIC,instance,"getInstance");
-        getInstance.addBody(codeBlock);
+    public void canBeSingleton(){
+        GenerateActionKit generateActionKit=new GenerateActionKit();
+        generateActionKit.createSimpleSingleMethod(this);
     }
 
     public TypeSpec build(){

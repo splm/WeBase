@@ -1,25 +1,22 @@
 package me.splm.app.inject.processor.component.processor.porter;
 
-import me.splm.app.inject.annotation.WeInjectPorter;
-import me.splm.app.inject.annotation.Wheather;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 
 import javax.lang.model.element.TypeElement;
 
+import me.splm.app.inject.annotation.WeInjectPorter;
+import me.splm.app.inject.annotation.Whether;
 import me.splm.app.inject.processor.code.WeClass;
 import me.splm.app.inject.processor.code.WeCodeModel;
-import me.splm.app.inject.processor.code.WeMod;
-import me.splm.app.inject.processor.component.proxy.ActionTask;
-import me.splm.app.inject.processor.component.proxy.TreeTrunk;
-import me.splm.app.inject.processor.core.Config;
 import me.splm.app.inject.processor.code.WeMethod;
+import me.splm.app.inject.processor.code.WeMod;
 import me.splm.app.inject.processor.code.WeVar;
 import me.splm.app.inject.processor.component.elder.NamePair;
 import me.splm.app.inject.processor.component.proxy.AbsGenerateJavaAction;
+import me.splm.app.inject.processor.component.proxy.ActionTask;
 import me.splm.app.inject.processor.component.proxy.IWorkersProxy;
-
-import static com.squareup.javapoet.ClassName.get;
+import me.splm.app.inject.processor.component.proxy.TreeTrunk;
+import me.splm.app.inject.processor.core.Config;
 
 
 public class GeneratePorterAction extends AbsGenerateJavaAction {
@@ -44,45 +41,38 @@ public class GeneratePorterAction extends AbsGenerateJavaAction {
         String[] paramTypes = splitParaType(subName);
         NamePair p1st = splitTargetStr2(Config.APP_PACKAGE + ".databinding." + paramTypes[0]);
         NamePair p2nd = splitTargetStr2(paramTypes[1]);
-        ClassName clazzName = get(TARGET_PACKAGE_NAME, "We" + cName + writeSuffix());
-        ClassName databindingUtil = get("android.databinding", "DataBindingUtil");
         WeInjectPorter porter = mTypeElement.getAnnotation(WeInjectPorter.class);
         int id = porter.layoutId();
-        Wheather isFullScreen = porter.fullScreen();
-        Wheather isShowTile = porter.noTitle();
-        CodeBlock.Builder fullScreenBuilder = CodeBlock.builder();
-        if (isFullScreen == Wheather.YES) {
-            fullScreenBuilder.add(MACTIVITYNAME + ".getWindow().setFlags(" + 0x00000400 + "," + 0x00000400 + ");\n");
-            fullScreenBuilder.add(MACTIVITYNAME + ".getSupportActionBar().hide();\n");
-        } else {
-            if (isShowTile == Wheather.YES) {
-                fullScreenBuilder.add(MACTIVITYNAME + ".getSupportActionBar().hide();\n");
-            }
-        }
-        CodeBlock fullScreen = fullScreenBuilder.build();
+        Whether isFullScreen = porter.fullScreen();
+        Whether isShowTile = porter.noTitle();
         /**********/
-        WeVar className = new WeVar(WeMod.PRIVATE+WeMod.STATIC,TARGET_PACKAGE_NAME,"We" + cName + writeSuffix(),"instance");
-        WeCodeModel weCodeModel = new WeCodeModel();
+        WeCodeModel weCodeModel =renewCodeModel();
         WeClass weClass = weCodeModel.createClass("We" + cName + writeSuffix());
-        weClass.declareVar(WeMod.PUBLIC, p1st.getPackageName(), p1st.getSimpleName(), MDATABINGNAME);//mDatabinding
-        weClass.declareVar(WeMod.PUBLIC, pName, cName, MACTIVITYNAME);
+        WeVar mDatabinding=weClass.declareVar(WeMod.PUBLIC, p1st.getPackageName(), p1st.getSimpleName(), MDATABINGNAME);//mDatabinding
+        WeVar mActivity=weClass.declareVar(WeMod.PUBLIC, pName, cName, MACTIVITYNAME);
+        WeVar mViewModel = weClass.declareVar(WeMod.PUBLIC, p2nd.getPackageName(), p2nd.getSimpleName(), MVIEWMODELNAME);
+        WeVar mDataBindingUtils=new WeVar("android.databinding", "DataBindingUtil","");
         weClass.addInterface(IWorkersProxy.class);
-        weClass.canBeSingleton(className);
+        weClass.canBeSingleton();
         /*WeVar weVar=new WeVar(WeMod.PRIVIATE,pName, cName,MACTIVITYNAME);
         weClass.declareVar(weVar);*/
-        WeVar mViewModel = weClass.declareVar(WeMod.PUBLIC, p2nd.getPackageName(), p2nd.getSimpleName(), MVIEWMODELNAME);
-        WeVar object = new WeVar("java.lang", "Object", "object");
 
         WeMethod initView = weClass.declareMethod(WeMod.PUBLIC, "initView");
+        WeVar object = new WeVar("java.lang", "Object", "object");
         initView.addParameters(object);
-        CodeBlock codeOfInitView = CodeBlock.builder()
-                .add(fullScreen)
-                .add(MACTIVITYNAME + "=("+absName+")"+object.getFieldName()+";\n")
-                .addStatement(MDATABINGNAME + "=$T.setContentView(" + MACTIVITYNAME + ",$L)", databindingUtil, id)
-                .addStatement(MACTIVITYNAME + ".setBinding(" + MDATABINGNAME + ")")
-                .addStatement(MVIEWMODELNAME + "=new $T(" + MACTIVITYNAME + ")", mViewModel.toClassType())
-                .addStatement(MDATABINGNAME + ".setViewModel(" + MVIEWMODELNAME + ")")
-                .addStatement(MACTIVITYNAME + ".setViewModel(" + MVIEWMODELNAME + ")").build();
+        WeVar layoutIdOfIllusion=new WeVar(id);
+        WeVar absNameOfIllusion=new WeVar(absName);
+        PorterFieldModelProxy porterFieldModelProxy=new PorterFieldModelProxy();
+        porterFieldModelProxy.setFieldOfActivity(new PorterFieldModel(mActivity));
+        porterFieldModelProxy.setFieldOfDataBinding(new PorterFieldModel(mDatabinding));
+        porterFieldModelProxy.setFieldOfDataBindingUtils(new PorterFieldModel(mDataBindingUtils));
+        porterFieldModelProxy.setFieldOfObject(new PorterFieldModel(object));
+        porterFieldModelProxy.setFieldOfViewModel(new PorterFieldModel(mViewModel));
+        porterFieldModelProxy.setValueOfLayoutIdValueModel(new PorterFieldModel(layoutIdOfIllusion));
+        porterFieldModelProxy.setValueOfAbsNameModel(new PorterFieldModel(absNameOfIllusion));
+        PorterCodeAssistant assistant=new PorterCodeAssistant(porterFieldModelProxy);
+        CodeBlock codeOfInitView=assistant.buildMethodInitViewPortion(isFullScreen,isShowTile);
+
         initView.addBody(codeOfInitView);
 
         WeMethod assist = weClass.declareMethod(WeMod.PUBLIC, "assist");

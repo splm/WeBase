@@ -1,5 +1,6 @@
 package me.splm.app.inject.processor.component.proxy;
 
+import me.splm.app.inject.processor.code.WeCodeModel;
 import me.splm.app.inject.processor.component.GenerateActionKit;
 import me.splm.app.inject.processor.component.TargetClassComponent;
 import me.splm.app.inject.processor.core.Config;
@@ -34,6 +35,14 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
     }
 
     protected abstract String writeSuffix();
+
+    /**
+     * creating new CodeModel,This CodeModel object must be created before you are about to build your own class.
+     * @return
+     */
+    protected WeCodeModel renewCodeModel(){
+        return new WeCodeModel();
+    }
 
     @Override
     public void performAction(ProcessingEnvironment processingEnvironment) {

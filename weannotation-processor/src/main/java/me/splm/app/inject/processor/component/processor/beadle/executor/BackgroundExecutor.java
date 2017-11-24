@@ -96,7 +96,7 @@ public class BackgroundExecutor {
             if (id == null || serial == null) {
                 return;
             }
-            synchronized (com.sun.javafx.runtime.async.BackgroundExecutor.class) {
+            synchronized (BackgroundExecutor.class) {
                 Task next = take(serial);
                 if (next != null) {
                     BackgroundExecutor.execute(next);

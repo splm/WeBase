@@ -25,7 +25,7 @@ import javax.lang.model.type.TypeMirror;
 
 public class GenerateBeadleAction extends AbsGenerateJavaAction {
 
-    private static final String PKG_BACKGROUNDEXECTOR="BackgroundExecutor";
+    private static final String PKG_BACKGROUNDEXECTOR="me.splm.app.inject.processor.component.processor.beadle.executor.BackgroundExecutor";
 
     @Override
     protected String writeSuffix() {
@@ -39,7 +39,6 @@ public class GenerateBeadleAction extends AbsGenerateJavaAction {
         String pName=treeTrunk.getPackageName();
         ClassName subClazzName=ClassName.get(pName,cName);
         String clazzSimpleName="We" + cName + writeSuffix();
-        LOGGER.info(clazzSimpleName+"99999999999999999999999");
         ClassName clazzName = ClassName.get(TARGET_PACKAGE_NAME, clazzSimpleName);
         Set<TreeBranchesMethods> treeBranchesMethodsSet=treeTrunk.fetcheMemberOfMethods();
 
