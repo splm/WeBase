@@ -54,8 +54,6 @@ public class GeneratePorterAction extends AbsGenerateJavaAction {
         WeVar mDataBindingUtils=new WeVar("android.databinding", "DataBindingUtil","");
         weClass.addInterface(IWorkersProxy.class);
         weClass.canBeSingleton();
-        /*WeVar weVar=new WeVar(WeMod.PRIVIATE,pName, cName,MACTIVITYNAME);
-        weClass.declareVar(weVar);*/
 
         WeMethod initView = weClass.declareMethod(WeMod.PUBLIC, "initView");
         WeVar object = new WeVar("java.lang", "Object", "object");

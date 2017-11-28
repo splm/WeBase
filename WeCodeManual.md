@@ -72,6 +72,12 @@ weCodeModel.build();
 weClass.addInterface(IWorkersProxy.class);
 ```
 
+- 继承
+
+```java
+weClass.addExtends(WorkersProxy.class);
+```
+
 - 该类为单例模式
 
 ```java

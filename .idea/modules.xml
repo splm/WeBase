@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\caodi\work\WeBase\BaseLibDemo.iml" filepath="E:\caodi\work\WeBase\BaseLibDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/WeBase.iml" filepath="$PROJECT_DIR$/WeBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/WeBase-core/WeBase-core.iml" filepath="$PROJECT_DIR$/WeBase-core/WeBase-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\caodi\work\WeBase\WeBase-core\baselib.iml" filepath="E:\caodi\work\WeBase\WeBase-core\baselib.iml" />
-      <module fileurl="file://E:\caodi\work\WeBase\weannotation-processor\lib-weprocessor.iml" filepath="E:\caodi\work\WeBase\weannotation-processor\lib-weprocessor.iml" />
       <module fileurl="file://$PROJECT_DIR$/weannotation/weannotation.iml" filepath="$PROJECT_DIR$/weannotation/weannotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/weannotation-processor/weannotation-processor.iml" filepath="$PROJECT_DIR$/weannotation-processor/weannotation-processor.iml" />
     </modules>
