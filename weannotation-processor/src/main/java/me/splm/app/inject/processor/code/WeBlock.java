@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.splm.app.inject.processor.exception.NotDuplicateException;
-import me.splm.app.inject.processor.log.Logger;
-import me.splm.app.inject.processor.log.LoggerFactory;
 
 public class WeBlock {
 
@@ -26,15 +24,15 @@ public class WeBlock {
         this.mBuilder = builder;
     }
 
-    public WeVar declare(String pkg, String name, String fieldName) {
+    public WeVar declare(String pkg, String name, String fieldName) throws NotDuplicateException {
         return this.declare(WeMod.NONE, pkg, name, fieldName);
     }
 
-    public WeVar declare(int modifier, String pkg, String name, String fieldName) {
+    public WeVar declare(int modifier, String pkg, String name, String fieldName) throws NotDuplicateException {
         WeVar weVar = new WeVar(modifier, pkg, name, fieldName);
         boolean isContain = weVarMap.containsKey(fieldName);
         if (isContain) {
-            throw new NotDuplicateException("The field called "+ fieldName +" can't be declared repeatly.");
+            throw new NotDuplicateException("The field called "+ pkg+"."+name+"."+fieldName +" can't be declared repeatly.");
         }
         weVarMap.put(fieldName, weVar);
         return weVar;

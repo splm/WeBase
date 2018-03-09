@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.lang.model.element.Modifier;
 
 import me.splm.app.inject.processor.component.GenerateActionKit;
+import me.splm.app.inject.processor.exception.NotDuplicateException;
 
 public class WeClass {
     private String mClassName;
@@ -29,13 +30,17 @@ public class WeClass {
     }
 
     public WeClass(int modifier, String name){
+
+    }
+
+    public WeClass(int modifier,String pkg,String name){
         this.mClassName=name;
         mBuilder=TypeSpec.classBuilder(mClassName);
         WeMod weMod=new WeMod();
         List<Modifier> list=weMod.resolve(modifier);
         Modifier[] modifiers=list.toArray(new Modifier[]{});
         mBuilder.addModifiers(modifiers);
-        WeBlock weBlock=clzzBlockMap.get(name);
+        WeBlock weBlock=clzzBlockMap.get(pkg+"."+name);
         if(weBlock==null){
             weBlock=new WeBlock();
             clzzBlockMap.put(name,weBlock);
@@ -95,11 +100,11 @@ public class WeClass {
         return this.weBlock;
     }
 
-    public WeVar declareVar(String pkg, String name, String fieldName){
+    public WeVar declareVar(String pkg, String name, String fieldName) throws NotDuplicateException{
         return this.weBlock.declare(pkg,name,fieldName);
     }
 
-    public WeVar declareVar(int modifier, String pkg, String name, String fieldName) {
+    public WeVar declareVar(int modifier, String pkg, String name, String fieldName) throws NotDuplicateException {
         return this.weBlock.declare(modifier,pkg,name,fieldName);
     }
 

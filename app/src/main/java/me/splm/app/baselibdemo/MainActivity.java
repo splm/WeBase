@@ -5,23 +5,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import me.splm.app.inject.annotation.WeInjectBeadle;
-import me.splm.app.inject.annotation.WeInjectPorter;
-import com.jc.android.auto.WeMainActivity_Beadle;
-import com.jc.android.auto.WeSecondActivity_Plumber;
 import com.jc.android.baselib.manager.Config;
 import com.jc.android.baselib.manager.IWorkshop;
 import com.jc.android.baselib.manager.InformationDesk;
 import com.jc.android.baselib.manager.LoaderObject;
 import com.jc.android.baselib.manager.UILayerManager;
-import me.splm.app.inject.processor.component.proxy.TreeTrunk;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.splm.app.auto.WeMainActivity_Beadle;
+import me.splm.app.auto.WeSecondActivity_Plumber;
 import me.splm.app.baselibdemo.TestModel.BookModel;
 import me.splm.app.baselibdemo.TestModel.MainViewModel;
 import me.splm.app.baselibdemo.databinding.ActivityMainBinding;
+import me.splm.app.inject.annotation.WeInjectBeadle;
+import me.splm.app.inject.annotation.WeInjectPorter;
+import me.splm.app.inject.processor.component.proxy.TreeTrunk;
 
 @WeInjectPorter(layoutId = R.layout.activity_main)
 public class MainActivity extends BaseActivity<ActivityMainBinding,MainViewModel> {

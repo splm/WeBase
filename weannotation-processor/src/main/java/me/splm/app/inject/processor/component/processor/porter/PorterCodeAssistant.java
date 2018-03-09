@@ -4,9 +4,6 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 
 import me.splm.app.inject.annotation.Whether;
-import me.splm.app.inject.processor.component.proxy.IArborAction;
-import me.splm.app.inject.processor.log.Logger;
-import me.splm.app.inject.processor.log.LoggerFactory;
 
 
 public class PorterCodeAssistant {
@@ -29,7 +26,6 @@ public class PorterCodeAssistant {
 
     private int mlayoutId;
     private String mAbsName;
-    Logger LOGGER= LoggerFactory.getLogger(IArborAction.class);
 
 
     public PorterCodeAssistant(PorterFieldModelProxy proxy) {
