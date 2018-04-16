@@ -54,4 +54,10 @@ public class WeMod {
             list.add(Modifier.STRICTFP);
         return list;
     }
+
+    public static Modifier[] rosolve(int modifier){
+        WeMod weMod=new WeMod();
+        List<Modifier> list=weMod.resolve(modifier);
+        return list.toArray(new Modifier[]{});
+    }
 }

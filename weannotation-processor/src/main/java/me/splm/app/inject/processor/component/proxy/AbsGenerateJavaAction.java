@@ -29,7 +29,7 @@ import javax.lang.model.type.TypeMirror;
 public abstract class AbsGenerateJavaAction implements IArborAction {
     protected TypeSpec mTargetClzz;
     protected static final String TARGET_PACKAGE_NAME = Config.GEN_fOLDER;
-    protected static final Logger LOGGER= LoggerFactory.getLogger(IArborAction.class);
+    protected static final Logger LOGGER= LoggerFactory.getLogger(AbsGenerateJavaAction.class);
     private JavaFile createFile(String name, TypeSpec typeSpec){
         return JavaFile.builder(name, typeSpec).build();
     }

@@ -25,10 +25,6 @@ public class WeClass {
     private static final Map<String,WeBlock> clzzBlockMap=new LinkedHashMap<>();
     private List<WeMethod> methods=new LinkedList<>();
 
-    public WeClass(String name){
-        this(WeMod.PUBLIC,name);
-    }
-
     public WeClass(int modifier,String pkg,String name){
         this.mClassName=name;
         mBuilder=TypeSpec.classBuilder(mClassName);
