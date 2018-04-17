@@ -7,7 +7,7 @@ import com.squareup.javapoet.TypeName;
 public class WeArrayVar extends WeBlurVar<ArrayTypeName>{
 
     @Override
-    protected String constructInitValue(TypeName limit, String fieldName, String[] data){
+    protected String constructInitValue(TypeName limit, String fieldName, String... data){
         String exp="";
         if(data.length>0){
             String literal="";

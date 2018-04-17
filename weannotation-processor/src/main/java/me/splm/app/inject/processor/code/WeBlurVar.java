@@ -5,14 +5,14 @@ import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.TypeName;
 
 public abstract class WeBlurVar<T extends TypeName> {
-    protected abstract String constructInitValue(TypeName limit, String fieldName, String[] data);
+    protected abstract String constructInitValue(TypeName limit, String fieldName, String...data);
 
     private WeVarValue initiate(TypeName limit, String fieldName, String[] data){
         String exp=constructInitValue(limit, fieldName, data);
         return encompass(fieldName,exp,limit);
     }
 
-    public WeVar attachVar(TypeName limit, String fieldName, String[] data){
+    public WeVar attachVar(TypeName limit, String fieldName, String...data){
         WeVarValue weVarValue=initiate(limit, fieldName, data);
         TypeName t=weVarValue.getTypeName();
         String f=weVarValue.getFieldName();
