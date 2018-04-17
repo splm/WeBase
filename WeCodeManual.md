@@ -131,3 +131,27 @@ assist.reference(initView, object);//assist调用别的方法，第二个为前�
 ```
 
 ​	如果一次想引用多个方法，可以参考`public void references(WeMethodMarker weMethodMarker)`引用顺序即为添加顺序
+
+- 创建全局变量
+
+```java
+//生成整型变量，并赋值
+WeVar weIntVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.INT,"int_name","256");
+//生成浮点型变量，并赋值
+WeVar weFloatVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.FLOAT,"float_name","16.0f");
+//生成字符串，并赋值
+WeVar weStringVar=LoadingBridgeAssistant.declareString("string_name","111111");
+WeVar weShortVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.SHORT,"short_name","1");
+WeVar weLongVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.LONG,"long_name","1024L");
+WeVar weDoubleVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.DOUBLE,"double_name","1e16d");
+WeVar weBoolVar=LoadingBridgeAssistant.declareNumber(WeBlurVar.BOOLEAN,"boolean_name","true");
+//生成数组，并初始化数值，参数1为数组类型
+WeVar weVar=LoadingBridgeAssistant.declareArray(String.class,"VALUES",array);
+```
+
+声明完成这些变量以后，需要添加到类中
+
+```java
+weClass.declareVar(weVar);
+```
+

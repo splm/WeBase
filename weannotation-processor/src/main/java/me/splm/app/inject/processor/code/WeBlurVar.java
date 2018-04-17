@@ -4,7 +4,21 @@ package me.splm.app.inject.processor.code;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.TypeName;
 
+import me.splm.app.inject.processor.log.Logger;
+import me.splm.app.inject.processor.log.LoggerFactory;
+
 public abstract class WeBlurVar<T extends TypeName> {
+
+    protected static final Logger LOGGER= LoggerFactory.getLogger(WeBlurVar.class);
+
+    public static final String SHORT="Short";
+    public static final String INT="Integer";
+    public static final String FLOAT="Float";
+    public static final String LONG="Long";
+    public static final String DOUBLE="Double";
+    public static final String BOOLEAN="Boolean";
+    public static final String BYTE="Byte";
+
     protected abstract String constructInitValue(TypeName limit, String fieldName, String...data);
 
     private WeVarValue initiate(TypeName limit, String fieldName, String[] data){
@@ -22,7 +36,9 @@ public abstract class WeBlurVar<T extends TypeName> {
         return weVar;
     }
 
-    protected abstract T feedbackType(TypeName limit);
+    public T feedbackType(TypeName limit){
+        return (T)limit;
+    }
 
     protected WeVarValue encompass(String fieldName,String exp,TypeName limit){
         T t=feedbackType(limit);

@@ -25,7 +25,7 @@ public class WeArrayVar extends WeBlurVar<ArrayTypeName>{
     }
 
     @Override
-    protected ArrayTypeName feedbackType(TypeName limit) {
+    public ArrayTypeName feedbackType(TypeName limit) {
         return ArrayTypeName.of(limit);
     }
 }

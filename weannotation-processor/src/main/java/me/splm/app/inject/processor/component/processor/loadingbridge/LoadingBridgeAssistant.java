@@ -16,4 +16,12 @@ public class LoadingBridgeAssistant {
         return GenerateFieldKit.announceArray(typeClass, fieldName, data);
     }
 
+    public static WeVar declareString(String fieldName,String data){
+        return GenerateFieldKit.announceString(fieldName, data);
+    }
+
+    public static WeVar declareNumber(String type,String fieldName,String data){
+        return GenerateFieldKit.announceNumber(type,fieldName, data);
+    }
+
 }
