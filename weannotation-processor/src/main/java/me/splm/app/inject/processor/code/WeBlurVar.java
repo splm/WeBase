@@ -27,11 +27,15 @@ public abstract class WeBlurVar<T extends TypeName> {
     }
 
     public WeVar attachVar(TypeName limit, String fieldName, String...data){
+        return attachVar(WeMod.PRIVATE,limit,fieldName,data);
+    }
+
+    public WeVar attachVar(int mod,TypeName limit, String fieldName, String...data){
         WeVarValue weVarValue=initiate(limit, fieldName, data);
         TypeName t=weVarValue.getTypeName();
         String f=weVarValue.getFieldName();
         CodeBlock c=weVarValue.getValueCode();
-        WeVar weVar=new WeVar(t,f);
+        WeVar weVar=new WeVar(mod,t,f);
         weVar.initializer(c);
         return weVar;
     }

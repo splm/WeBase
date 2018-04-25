@@ -79,7 +79,7 @@ public class GeneratePorterAction extends AbsGenerateJavaAction {
             assist.addAnnotation(Override.class);
             assist.reference(initView, object);//TODO uncomplete
             mTargetClzz = weCodeModel.build();
-            return new ActionTask(this);
+            return super.prepareAction(treeTrunk);
         }catch(NotDuplicateException e){
             LOGGER.error(e);
         }

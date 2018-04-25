@@ -95,6 +95,6 @@ public class GenerateBeadleAction extends AbsGenerateJavaAction {
         }catch(NotExtendException e){
             LOGGER.error(e);
         }
-        return new ActionTask(this);
+        return super.prepareAction(treeTrunk);
     }
 }

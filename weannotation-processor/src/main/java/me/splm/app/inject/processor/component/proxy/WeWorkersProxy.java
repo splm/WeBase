@@ -1,11 +1,11 @@
 package me.splm.app.inject.processor.component.proxy;
 
 
-import me.splm.app.inject.processor.core.Config;
-import me.splm.app.inject.processor.core.FileGauge;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import me.splm.app.inject.processor.core.Config;
+import me.splm.app.inject.processor.core.FileGauge;
 
 public class WeWorkersProxy {
     public static void bind(Object object) {
@@ -16,7 +16,7 @@ public class WeWorkersProxy {
         try {
             Class targetClz = object.getClass();
             String targetSimpleName=targetClz.getSimpleName().toString();
-            Class<?> valueClz = Class.forName(Config.GEN_fOLDER+".We"+ targetSimpleName+ Config.SUFFIX_RECORD);//Eg:com.jc.android.auto.WeMainActivity$$Record
+            Class<?> valueClz = Class.forName(Config.GEN_fOLDER+".We"+ targetSimpleName+ Config.SUFFIX_RECORD);//Eg:com.jc.android.auto.WeMainActivity_Legend
             Field field=valueClz.getDeclaredField("VALUES");
             if(field!=null){
                 Object o=field.get(valueClz);

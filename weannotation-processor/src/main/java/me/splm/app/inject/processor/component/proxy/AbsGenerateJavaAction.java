@@ -36,6 +36,11 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
 
     protected abstract String writeSuffix();
 
+    @Override
+    public ActionTask prepareAction(TreeTrunk treeTrunk) throws NullPointerException {
+        return new ActionTask(this);
+    }
+
     /**
      * creating new CodeModel,This CodeModel object must be created before you are about to build your own class.
      * @return

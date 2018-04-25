@@ -273,7 +273,7 @@ public class GeneratePlumberAction extends AbsGenerateJavaAction {
                     .addType(bridgeDataClazz)//begiin to add class
                     .addSuperinterface(IWorkersProxy.class)
                     .build();
-            return new ActionTask(this);
+            return super.prepareAction(treeTrunk);
         }
         return null;
     }
