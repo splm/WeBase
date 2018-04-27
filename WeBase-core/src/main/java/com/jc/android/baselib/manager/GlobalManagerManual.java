@@ -8,22 +8,36 @@ public enum GlobalManagerManual {
     /*****UIlayerManager******/
     findUIlayerManager(){
         @Override
-        public IManagerMarker searchManager() {
-            return GlobalManagerManual.getManager().findManagerByTag(UILayerManager.class);
+        public UILayerManager searchManager() {
+            return (UILayerManager) GlobalManagerManual.getManager().findManagerByTag(UILayerManager.class);
         }
     },
     findFragmentCoreManager(){
         @Override
-        public IManagerMarker searchManager() {
-            return GlobalManagerManual.exchangeUIlayer().findManagerByTag(FragmentCoreManager.class);
+        public FragmentCoreManager searchManager() {
+            return (FragmentCoreManager) GlobalManagerManual.exchangeUIlayer().findManagerByTag(FragmentCoreManager.class);
         }
     },
     findActivityCoreManager(){
         @Override
-        public IManagerMarker searchManager() {
-            return GlobalManagerManual.exchangeUIlayer().findManagerByTag(ActivityCoreManager.class);
+        public ActivityCoreManager searchManager() {
+            return (ActivityCoreManager)GlobalManagerManual.exchangeUIlayer().findManagerByTag(ActivityCoreManager.class);
         }
     },
+
+    /**Get your custom manager*/
+    findCustomManager(){
+        @Override
+        public IManagerMarker searchManager() {
+            return null;
+        }
+
+        @Override
+        public IManagerMarker searchManager(Class<? extends IManagerMarker> clazz) {
+            return GlobalManagerManual.exchangeUIlayer().findManagerByTag(clazz);
+        }
+    },
+
     /*****LocalFilesManager******/
     findLocalFilesManager(){
         @Override
@@ -33,6 +47,9 @@ public enum GlobalManagerManual {
     },
     ;
     public abstract IManagerMarker searchManager();
+    protected IManagerMarker searchManager(Class<? extends IManagerMarker> clazz){
+        return null;
+    }
     private static GlobalManager getManager(){
         return GlobalManager.getInstance();
     }

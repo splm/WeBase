@@ -1,14 +1,21 @@
 package com.jc.android.baselib.manager;
 
 public class InformationDesk implements IWorkshop {
-    public ActivityCoreManager catchManagerOfActivity(){
-        ActivityCoreManager activityCoreManager=(ActivityCoreManager) GlobalManagerManual.findActivityCoreManager.searchManager();
-        return activityCoreManager;
+    @Override
+    public LocalFilesManager catchManagerOfLocalFile() {
+        return null;
     }
 
-    @Override
-    public LoaderObject enrollPermission(ILoader loader) {
-        return loader.read(this);
+    public ActivityCoreManager catchManagerOfActivity(){
+        return (ActivityCoreManager) GlobalManagerManual.findActivityCoreManager.searchManager();
+    }
+
+    public UILayerManager catchManagerOfUI(){
+        return (UILayerManager) GlobalManagerManual.findUIlayerManager.searchManager();
+    }
+
+    public IManagerMarker catchManagerOfCustom(Class<? extends IManagerMarker> clazz){
+        return GlobalManagerManual.findCustomManager.searchManager(clazz);
     }
 
     @Override

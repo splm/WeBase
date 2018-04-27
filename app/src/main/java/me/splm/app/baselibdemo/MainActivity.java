@@ -4,11 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.jc.android.baselib.manager.Config;
-import com.jc.android.baselib.manager.IWorkshop;
-import com.jc.android.baselib.manager.InformationDesk;
-import com.jc.android.baselib.manager.LoaderObject;
-import com.jc.android.baselib.manager.UILayerManager;
+import com.jc.android.baselib.imageloader.ImageLoader;
+import com.jc.android.baselib.imageloader.ImageLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +54,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding,MainViewModel
 
             }
         });
-        TestUIConfig testUIConfig=new TestUIConfig();
-        IWorkshop workshop=new InformationDesk();
-        LoaderObject<UILayerManager> loader=workshop.enrollPermission(testUIConfig);
-        Config config=loader.getConfig();
+        /*IWorkshop workshop=new InformationDesk();
+        ActivityCoreManager manager=workshop.catchManagerOfActivity();*/
+
+        ImageLoader imageLoader=new ImageLoader.Builder().url("").imgView(null).build();
+        ImageLoaderUtils.getInstance().loadImage(this,imageLoader);
     }
 }
