@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Created by Administrator on 2017/9/29 0029.
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 public @interface WeInjectFeature {
-    int style();
+    int style() default 0;
 }

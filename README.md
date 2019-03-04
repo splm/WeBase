@@ -25,26 +25,21 @@
 
 `此项目是`[WeInject2](https://github.com/splm/WeInject2)`的整合与升级，因此WeInject2会放弃维护`
 
-> WeBase，这是一个快速开发的框架，涵盖了基础配置管理，UI特效，功能组件，线程管理，文件上载下载等，尽最大限度的帮助开发者以最少的代码来完成复杂重复的问题，提升工作效率。
->
-> `注意：使用本项目请结合Goodle Databinding框架使用`
+> WeBase，是一个避免开发者反复编写重复代码的工具，所有常用的代码可以自己根据WeCodeManual编写自己的规则，然后交由WeAnnotation-processor生成代码。
 
-1.**WeManager**：用于管理全局模块管理器的类：UI模块，网络模块，文件，基础配置等。此类的出现是为了避免各个模块的配置信息分布在项目四处，不好维护，因为都由统一的入口处理请求，再由唯一的接口分发到对应子模块；
+> `注意：使用本项目请结合Goodle Databinding框架使用。如果不想基于这个，那么需要修改Weannotation-processor中的代码`
 
-> 相关API待完善
-
-2.**WeVision**：动画效果类，一行代码实现复杂特效；[更多功能可以参考](https://github.com/splm/WeVision)
+1.**WeVision**：动画效果类，一行代码实现复杂特效；[更多功能可以参考](https://github.com/splm/WeVision)
 
 > ```java
 > WeVisionStatus status=WeVisionEngine.use(Vision.FadeInLeft).playOn(targetView);
 > ```
->
-> 
 
-3.**WeInject**：
+2.**WeInject**：
 
 ###### 数据传递
 
+> 这个功能现在废弃，想基于WeAnnotation做一个路由功能
 - a)全新的activity之间传递数据模式，避免出现无尽的`new Intent()`；
 
 > 之前：
@@ -141,22 +136,3 @@
 ###### 动态生成Java类文件的语法简化
 
 - 如果需要自定义注解插件或者有自动构建Java类的需求可以使用，详细参考[WeCode的使用](WeCodeManual.md)
-
-.....
-
-
-
-------
-
-# 性能
-
-AndroidMoitor执行onCreate()
-
-> +130ms
-
-System.currentTimeMillis()
-
-> +1.8ms
-
-------
-

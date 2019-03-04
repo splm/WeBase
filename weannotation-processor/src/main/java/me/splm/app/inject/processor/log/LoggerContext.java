@@ -3,6 +3,7 @@ package me.splm.app.inject.processor.log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class LoggerContext {
         }
     }
 
-    private boolean isInit() {
+    public boolean isInit() {
         synchronized (mLockObject){
             return processingEnvironment!=null;//If this mProcessorEnv is not null,it will return true.
         }
@@ -79,6 +80,11 @@ public class LoggerContext {
         }
         if (tr != null) {
             builder.append(" [ Exception:" + getExceptionDetail(tr) + " ] ");
+        }
+        try{
+            return new String(builder.toString().getBytes("GBK"), "utf-8");
+        }catch (UnsupportedEncodingException e){
+
         }
         return builder.toString();
     }

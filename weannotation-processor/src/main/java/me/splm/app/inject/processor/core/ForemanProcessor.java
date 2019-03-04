@@ -1,13 +1,7 @@
 package me.splm.app.inject.processor.core;
 
-import me.splm.app.inject.processor.component.proxy.TreeTrunk;
-import me.splm.app.inject.processor.component.proxy.ActionTaskQueue;
-import me.splm.app.inject.processor.component.proxy.TreeBranchesMethods;
-import me.splm.app.inject.processor.component.proxy.TreeLeavesFields;
-import me.splm.app.inject.processor.log.Logger;
-import me.splm.app.inject.processor.log.LoggerContext;
-import me.splm.app.inject.processor.log.LoggerFactory;
-
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -28,6 +22,14 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 
+import me.splm.app.inject.processor.component.proxy.ActionTaskQueue;
+import me.splm.app.inject.processor.component.proxy.TreeBranchesMethods;
+import me.splm.app.inject.processor.component.proxy.TreeLeavesFields;
+import me.splm.app.inject.processor.component.proxy.TreeTrunk;
+import me.splm.app.inject.processor.log.Logger;
+import me.splm.app.inject.processor.log.LoggerContext;
+import me.splm.app.inject.processor.log.LoggerFactory;
+
 
 public abstract class ForemanProcessor<T extends Annotation> extends AbstractProcessor {
     private TreeTrunk mTreeTrunk;
@@ -35,14 +37,39 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
     private static final Set<String> mSupportedAnnotationTypes = new HashSet<>();
     protected ProcessingEnvironment mProcessingEnv;
     protected static final Logger LOGGER= LoggerFactory.getLogger(ForemanProcessor.class);
+    public static String ROOT;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+        boolean isInit=LoggerContext.getInstance().isInit();
         mSupportedAnnotationTypes.add(getAnnotationClass().getCanonicalName());
-        this.mProcessingEnv = processingEnv;
-        LoggerContext.getInstance().setProcessingEnvironment(mProcessingEnv);//Init log engine
-        LOGGER.info(mSupportedAnnotationTypes.size()+"***8888888888");
+        if(!isInit){
+            this.mProcessingEnv = processingEnv;
+            LoggerContext.getInstance().setProcessingEnvironment(mProcessingEnv);//Init log engine
+            LOGGER.info("当前Java编译版本 "+getSupportedSourceVersion());
+            try{
+                File file=new File("");
+                String rootPath=file.getCanonicalPath()+"\\app\\webase-mirror.wb";
+                ROOT=rootPath;
+                File root=new File(rootPath);
+                if(!root.exists()){
+                    boolean isCreate=root.createNewFile();
+                    if(isCreate){
+                        LOGGER.info("创建镜像文件成功");
+                    }else{
+                        LOGGER.info("创建镜像文件失败");
+                    }
+                }else{
+                    boolean canRW=root.canWrite()&&root.canRead();
+                    if(!canRW){
+                        LOGGER.info("webase-mirror.wb 不可用");
+                    }
+                }
+            }catch (IOException io){
+                LOGGER.error(io.getMessage());
+            }
+        }
     }
 
     @Override
@@ -76,7 +103,6 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
             }
             if (element.getKind() == ElementKind.METHOD) {
                 ExecutableElement executableElement = (ExecutableElement) element;
-                LOGGER.info("999999999999999999"+executableElement.getEnclosingElement());
                 list = executableElement.getAnnotationMirrors();
                 TreeBranchesMethods methodMember = new TreeBranchesMethods(executableElement);
                 mTreeTrunk=TreeTrunk.getRootClass(mTypeMapper,executableElement.getEnclosingElement());
@@ -90,7 +116,7 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
             ActionTaskQueue queue = getHowToCreate(pc);
             pc.executeTask(queue, processingEnv);
         }
-        return false;
+        return true;
     }
 
     private Class<T> getAnnotationClass() {

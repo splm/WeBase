@@ -1,12 +1,5 @@
 package me.splm.app.inject.processor.component.proxy;
 
-import me.splm.app.inject.processor.code.WeCodeModel;
-import me.splm.app.inject.processor.component.GenerateActionKit;
-import me.splm.app.inject.processor.component.TargetClassComponent;
-import me.splm.app.inject.processor.core.Config;
-import me.splm.app.inject.processor.exception.NotExtendException;
-import me.splm.app.inject.processor.log.Logger;
-import me.splm.app.inject.processor.log.LoggerFactory;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -14,7 +7,14 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -24,6 +24,17 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+
+import me.splm.app.inject.processor.code.WeCodeModel;
+import me.splm.app.inject.processor.component.GenerateActionKit;
+import me.splm.app.inject.processor.component.TargetClassComponent;
+import me.splm.app.inject.processor.component.Utils.TextUtils;
+import me.splm.app.inject.processor.component.Utils.entity.LineInfo;
+import me.splm.app.inject.processor.core.Config;
+import me.splm.app.inject.processor.core.ForemanProcessor;
+import me.splm.app.inject.processor.exception.NotExtendException;
+import me.splm.app.inject.processor.log.Logger;
+import me.splm.app.inject.processor.log.LoggerFactory;
 
 
 public abstract class AbsGenerateJavaAction implements IArborAction {
@@ -49,10 +60,80 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
         return new WeCodeModel();
     }
 
+    /**IO***Begin**/
+    private LineInfo readMirror(String clzzname) throws IOException{
+        //read
+        InputStream inputStream=null;
+        try{
+            inputStream=new FileInputStream(new File(ForemanProcessor.ROOT));
+            InputStreamReader inputStreamReader=new InputStreamReader(inputStream);
+            BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
+            String line;
+            int count=0;
+            while((line=bufferedReader.readLine())!=null){
+                count++;
+                if(line.contains(clzzname)){
+                    int var=line.indexOf("=");
+                    String k=line.substring(0,var);
+                    String v=line.substring(var+1);
+                    return new LineInfo(count, var, k, v);
+                }
+            }
+        }
+        finally {
+            if(inputStream!=null)inputStream.close();
+        }
+        return null;
+    }
+
+    private void writeMirror(String content,int index) throws IOException{
+        //write
+        RandomAccessFile randomAccessFile=new RandomAccessFile(new File(ForemanProcessor.ROOT), "rw");
+        long length=randomAccessFile.length();
+        if(index>0){
+            length=index;
+        }
+        randomAccessFile.seek(length);
+        randomAccessFile.writeBytes(content+"\n");
+        closeIO(randomAccessFile);
+    }
+
+    private void writeMirror(String content) throws IOException{
+        writeMirror(content, -1);
+    }
+
+    private void closeIO(Closeable closeable) throws IOException{
+        closeable.close();
+    }
+
+    /**IO***END**/
+
     @Override
     public void performAction(ProcessingEnvironment processingEnvironment) {
         try{
-            createFile(Config.GEN_fOLDER,mTargetClzz).writeTo(processingEnvironment.getFiler());
+            StringBuffer buffer=new StringBuffer();
+            JavaFile jf=createFile(Config.GEN_fOLDER,mTargetClzz);
+            jf.writeTo((Appendable) buffer);
+            String clzzname=mTargetClzz.name;
+            LineInfo info=readMirror(clzzname);
+            if(info!=null){
+                String v=info.getValue();
+                String var=TextUtils.md5(buffer.toString());
+                if(v==null){
+                    String kv=clzzname+"="+var;
+                    writeMirror(kv);
+                    jf.writeTo(processingEnvironment.getFiler());
+                }else{
+                    if(var!=null&&!TextUtils.isEquals(v, var)){
+                        String nv=v.replace(v, var);
+                        int index=info.getGlobalIndex();
+                        writeMirror("="+nv, index);
+                    }
+                }
+            }else{
+                writeMirror(clzzname+"="+TextUtils.md5(buffer.toString()));
+                jf.writeTo(processingEnvironment.getFiler());
+            }
         }catch(IOException ioe){
             ioe.printStackTrace();
         }

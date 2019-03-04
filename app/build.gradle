@@ -11,6 +11,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
     dataBinding {
         enabled true
     }
@@ -19,6 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
 }
 
@@ -30,16 +36,14 @@ dependencies {
     compile project(':WeBase-core')
     compile project(':weannotation-processor')
     /*compile 'com.qt:andjump-api:0.2'
-    apt  'com.qt:andjump-compiler:0.2'*/
-
+        apt  'com.qt:andjump-compiler:0.2'*/
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-
-/*    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'*/
-/*    apt "org.androidannotations:androidannotations:3.3.2"
-    compile "org.androidannotations:androidannotations-api:3.3.2"*/
+    /*    compile 'com.jakewharton:butterknife:8.8.1'
+        annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'*/
+    /*    apt "org.androidannotations:androidannotations:3.3.2"
+        compile "org.androidannotations:androidannotations-api:3.3.2"*/
 }
 
 

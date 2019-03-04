@@ -10,7 +10,7 @@ public class ActionFactory {
 
     private static IArborAction createInstance(Class<? extends IArborAction> actionClz){
         try{
-            return (IArborAction)actionClz.newInstance();
+            return actionClz.newInstance();
         }catch(InstantiationException ie){
             ie.printStackTrace();
         }catch (IllegalAccessException ill){
