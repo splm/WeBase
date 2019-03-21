@@ -29,7 +29,9 @@ public class ActionTaskQueue {
 
     public void add(ActionTask...tasks){
         for(ActionTask task:tasks){
-            add(task);
+            if(task!=null){
+                add(task);
+            }
         }
     }
     public ActionTask remove() {

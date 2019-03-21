@@ -10,7 +10,6 @@ import java.util.List;
 import me.splm.app.auto.WeMainActivity_Beadle;
 import me.splm.app.auto.WeSecondActivity_Plumber;
 import me.splm.app.baselibdemo.TestModel.BookModel;
-import me.splm.app.baselibdemo.TestModel.MainViewModel;
 import me.splm.app.baselibdemo.databinding.ActivityMainBinding;
 import me.splm.app.inject.annotation.WeInjectBeadle;
 import me.splm.app.inject.annotation.WeInjectPorter;

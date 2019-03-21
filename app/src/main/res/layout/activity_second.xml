@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="ViewModel"
-            type="me.splm.app.baselibdemo.TestModel.MainViewModel" />
+            name="viewModel"
+            type="me.splm.app.baselibdemo.MainViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

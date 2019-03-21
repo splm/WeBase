@@ -22,4 +22,9 @@ public class PorterProcessor extends ForemanProcessor<WeInjectPorter> {
         ActionTask taskB= ActionFactory.createAction(treeTrunk,GenerateLoadingBridgeAction.class);
         return ActionTaskQueue.construct(taskA,taskB);
     }
+
+    /*@Override
+    protected Class<WeInjectPorter> getAnnotationClass() {
+        return WeInjectPorter.class;
+    }*/
 }

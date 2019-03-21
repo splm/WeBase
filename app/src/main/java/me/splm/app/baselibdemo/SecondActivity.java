@@ -9,7 +9,6 @@ import me.splm.app.inject.annotation.WeInjectPlumber;
 import me.splm.app.inject.annotation.WeInjectPorter;
 
 import me.splm.app.baselibdemo.TestModel.BookModel;
-import me.splm.app.baselibdemo.TestModel.MainViewModel;
 import me.splm.app.baselibdemo.databinding.ActivitySecondBinding;
 
 

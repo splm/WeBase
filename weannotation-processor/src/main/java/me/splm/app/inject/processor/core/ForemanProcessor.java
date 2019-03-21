@@ -47,7 +47,7 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
         if(!isInit){
             this.mProcessingEnv = processingEnv;
             LoggerContext.getInstance().setProcessingEnvironment(mProcessingEnv);//Init log engine
-            LOGGER.info("当前Java编译版本 "+getSupportedSourceVersion());
+            LOGGER.info("完成初始化，当前Java编译版本 "+getSupportedSourceVersion());
             try{
                 File file=new File("");
                 String rootPath=file.getCanonicalPath()+"\\app\\webase-mirror.wb";
@@ -84,42 +84,47 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element element : roundEnv.getElementsAnnotatedWith(getAnnotationClass())) {
-            List<? extends AnnotationMirror> list;
-            if (element.getKind() == ElementKind.CLASS) {
-                list = element.getAnnotationMirrors();
-                mTreeTrunk = TreeTrunk.getRootClass(mTypeMapper, element);
-                mTreeTrunk.bindMemberOfAnnotation(list);
-                mTreeTrunk.setEnviroment(mProcessingEnv);
+        Set<? extends Element> set=roundEnv.getElementsAnnotatedWith(getAnnotationClass());
+        if(annotations.size()!=0){
+            for (Element element : set) {
+                List<? extends AnnotationMirror> list;
+                Class czz=getAnnotationClass();
+                LOGGER.info(czz+"--------");
+                if (element.getKind() == ElementKind.CLASS) {
+                    list = element.getAnnotationMirrors();
+                    mTreeTrunk = TreeTrunk.getRootClass(mTypeMapper, element);
+                    mTreeTrunk.bindMemberOfAnnotation(list);
+                    mTreeTrunk.setEnviroment(mProcessingEnv);
+                }
+                if (element.getKind() == ElementKind.FIELD) {
+                    VariableElement variableElement = (VariableElement) element;
+                    list = variableElement.getAnnotationMirrors();
+                    TreeLeavesFields classMember = new TreeLeavesFields(variableElement);
+                    mTreeTrunk=TreeTrunk.getRootClass(mTypeMapper,variableElement.getEnclosingElement());
+                    mTreeTrunk.bindMemberOfFields(classMember);
+                    classMember.bindMemberOfAnnotation(list);
+                    mTreeTrunk.setEnviroment(mProcessingEnv);
+                }
+                if (element.getKind() == ElementKind.METHOD) {
+                    ExecutableElement executableElement = (ExecutableElement) element;
+                    list = executableElement.getAnnotationMirrors();
+                    TreeBranchesMethods methodMember = new TreeBranchesMethods(executableElement);
+                    mTreeTrunk=TreeTrunk.getRootClass(mTypeMapper,executableElement.getEnclosingElement());
+                    mTreeTrunk.bindMemberOfMethods(methodMember);
+                    methodMember.bindMemberOfAnnotation(list);
+                    mTreeTrunk.setEnviroment(mProcessingEnv);
+                }
             }
-            if (element.getKind() == ElementKind.FIELD) {
-                VariableElement variableElement = (VariableElement) element;
-                list = variableElement.getAnnotationMirrors();
-                TreeLeavesFields classMember = new TreeLeavesFields(variableElement);
-                mTreeTrunk=TreeTrunk.getRootClass(mTypeMapper,variableElement.getEnclosingElement());
-                mTreeTrunk.bindMemberOfFields(classMember);
-                classMember.bindMemberOfAnnotation(list);
-                mTreeTrunk.setEnviroment(mProcessingEnv);
+            for (TreeTrunk pc : mTypeMapper.values()) {
+                ActionTaskQueue queue = getHowToCreate(pc);
+                pc.executeTask(queue, processingEnv);
             }
-            if (element.getKind() == ElementKind.METHOD) {
-                ExecutableElement executableElement = (ExecutableElement) element;
-                list = executableElement.getAnnotationMirrors();
-                TreeBranchesMethods methodMember = new TreeBranchesMethods(executableElement);
-                mTreeTrunk=TreeTrunk.getRootClass(mTypeMapper,executableElement.getEnclosingElement());
-                LOGGER.info(mTreeTrunk+"");
-                mTreeTrunk.bindMemberOfMethods(methodMember);
-                methodMember.bindMemberOfAnnotation(list);
-                mTreeTrunk.setEnviroment(mProcessingEnv);
-            }
+            return true;
         }
-        for (TreeTrunk pc : mTypeMapper.values()) {
-            ActionTaskQueue queue = getHowToCreate(pc);
-            pc.executeTask(queue, processingEnv);
-        }
-        return true;
+        return false;
     }
 
-    private Class<T> getAnnotationClass() {
+    protected Class<T> getAnnotationClass() {
         Class<T> entityClass = null;
         Type t = getClass().getGenericSuperclass();
         if (t instanceof ParameterizedType) {

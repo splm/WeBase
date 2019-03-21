@@ -5,7 +5,10 @@ public class ActionFactory {
 
     public static ActionTask createAction(TreeTrunk treeTrunk,Class<? extends IArborAction> actionClz){
         IArborAction action=createInstance(actionClz);
-        return action.prepareAction(treeTrunk);
+        if(action!=null){
+            return action.prepareAction(treeTrunk);
+        }
+        return null;
     }
 
     private static IArborAction createInstance(Class<? extends IArborAction> actionClz){

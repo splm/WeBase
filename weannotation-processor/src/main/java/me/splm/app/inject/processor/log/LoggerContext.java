@@ -19,6 +19,7 @@ public class LoggerContext {
     private Messager messager;
     private final Object mLockObject=new Object();
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss.S", Locale.ENGLISH);
+    public boolean mProcessed;
 
     private LoggerContext() {
     }
@@ -45,6 +46,10 @@ public class LoggerContext {
         synchronized (mLockObject){
             return processingEnvironment!=null;//If this mProcessorEnv is not null,it will return true.
         }
+    }
+
+    public boolean isProcessed(){
+        return mProcessed;
     }
 
     /**

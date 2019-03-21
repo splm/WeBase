@@ -40,7 +40,7 @@ public class GeneratePorterAction extends AbsGenerateJavaAction {
         String absName = treeTrunk.getAbstractName();
         String subName = mTypeElement.getSuperclass().toString();
         String[] paramTypes = splitParaType(subName);
-        NamePair p1st = splitTargetStr2(Config.APP_PACKAGE + ".databinding." + paramTypes[0]);
+        NamePair p1st = splitTargetStr2(paramTypes[0]);//Config.APP_PACKAGE + ".databinding." +
         NamePair p2nd = splitTargetStr2(paramTypes[1]);
         WeInjectPorter porter = mTypeElement.getAnnotation(WeInjectPorter.class);
         int id = porter.layoutId();

@@ -111,14 +111,19 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
     @Override
     public void performAction(ProcessingEnvironment processingEnvironment) {
         try{
+            createFile(Config.GEN_fOLDER,mTargetClzz).writeTo(processingEnvironment.getFiler());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        /*try{
             StringBuffer buffer=new StringBuffer();
             JavaFile jf=createFile(Config.GEN_fOLDER,mTargetClzz);
-            jf.writeTo((Appendable) buffer);
+            jf.writeTo(buffer);
             String clzzname=mTargetClzz.name;
             LineInfo info=readMirror(clzzname);
             if(info!=null){
                 String v=info.getValue();
-                String var=TextUtils.md5(buffer.toString());
+                String var= TextUtils.md5(buffer.toString());
                 if(v==null){
                     String kv=clzzname+"="+var;
                     writeMirror(kv);
@@ -128,6 +133,7 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
                         String nv=v.replace(v, var);
                         int index=info.getGlobalIndex();
                         writeMirror("="+nv, index);
+                        jf.writeTo(processingEnvironment.getFiler());
                     }
                 }
             }else{
@@ -136,7 +142,7 @@ public abstract class AbsGenerateJavaAction implements IArborAction {
             }
         }catch(IOException ioe){
             ioe.printStackTrace();
-        }
+        }*/
     }
 
     protected FieldSpec getDefineSingleton(ClassName className, String doc){
