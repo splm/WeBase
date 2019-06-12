@@ -15,7 +15,7 @@ public class WeWorkersProxy {
     private static void accessAction(Object object) {
         try {
             Class targetClz = object.getClass();
-            String targetSimpleName=targetClz.getSimpleName().toString();
+            String targetSimpleName=targetClz.getSimpleName();
             Class<?> valueClz = Class.forName(Config.GEN_fOLDER+".We"+ targetSimpleName+ Config.SUFFIX_RECORD);//Eg:com.jc.android.auto.WeMainActivity_Legend
             Field field=valueClz.getDeclaredField("VALUES");
             if(field!=null){

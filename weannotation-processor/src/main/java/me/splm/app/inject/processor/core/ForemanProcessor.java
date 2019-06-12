@@ -1,7 +1,5 @@
 package me.splm.app.inject.processor.core;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -47,8 +45,8 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
         if(!isInit){
             this.mProcessingEnv = processingEnv;
             LoggerContext.getInstance().setProcessingEnvironment(mProcessingEnv);//Init log engine
-            LOGGER.info("完成初始化，当前Java编译版本 "+getSupportedSourceVersion());
-            try{
+            LOGGER.info("Initial job has completed，Current Java Version is "+getSupportedSourceVersion());
+            /*try{
                 File file=new File("");
                 String rootPath=file.getCanonicalPath()+"\\app\\webase-mirror.wb";
                 ROOT=rootPath;
@@ -56,19 +54,19 @@ public abstract class ForemanProcessor<T extends Annotation> extends AbstractPro
                 if(!root.exists()){
                     boolean isCreate=root.createNewFile();
                     if(isCreate){
-                        LOGGER.info("创建镜像文件成功");
+                        LOGGER.info("Create mirror.wb successfully");
                     }else{
-                        LOGGER.info("创建镜像文件失败");
+                        LOGGER.info("Create mirror.wb failed");
                     }
                 }else{
                     boolean canRW=root.canWrite()&&root.canRead();
                     if(!canRW){
-                        LOGGER.info("webase-mirror.wb 不可用");
+                        LOGGER.info("webase-mirror.wb is unused");
                     }
                 }
             }catch (IOException io){
                 LOGGER.error(io.getMessage());
-            }
+            }*/
         }
     }
 

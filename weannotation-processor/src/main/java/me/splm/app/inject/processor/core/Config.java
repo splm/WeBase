@@ -13,6 +13,10 @@ public class Config {
     public static final String SUFFIX__PLUMBER=SUFFIX_SIGN+"Plumber";
     public static final String SUFFIX_BEADLE=SUFFIX_SIGN+"Beadle";
 
+    /**变量标识符**/
+    public static final String Varial_GLOBAL="global"+SUFFIX_SIGN;
+    public static final String Varial_SECTION="section"+SUFFIX_SIGN;
+
     public static final int YES=1;
     public static final int NO=2;
 }

@@ -60,10 +60,26 @@ public abstract class TreeRoot {
         }
     }
 
+    protected String splitName(String name){
+        return splitName(name, true);
+    }
+
+    protected String splitName(String name,boolean first){
+        int lastIndex = name.lastIndexOf(".");
+        if(first){
+            return name.subSequence(0, lastIndex).toString();
+        }else{
+            return name.substring(lastIndex+1);
+        }
+    }
+
+    public String getSimpleName(){
+        return getName();
+    }
+
     public String getPackageName(){
         String absName=getAbstractName();
-        int lastIndex = absName.lastIndexOf(".");
-        return absName.subSequence(0, lastIndex).toString();
+        return splitName(absName);
     }
 
     public String getAbstractName(){

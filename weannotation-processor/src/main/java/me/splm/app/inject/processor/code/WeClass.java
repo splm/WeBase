@@ -1,7 +1,6 @@
 package me.splm.app.inject.processor.code;
 
 
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -9,7 +8,6 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,13 +15,15 @@ import javax.lang.model.element.Modifier;
 
 import me.splm.app.inject.processor.component.GenerateActionKit;
 import me.splm.app.inject.processor.exception.NotDuplicateException;
+import me.splm.app.inject.processor.log.Logger;
+import me.splm.app.inject.processor.log.LoggerFactory;
 
 public class WeClass {
+    protected static final Logger LOGGER= LoggerFactory.getLogger(WeClass.class);
     private String mClassName;
     private WeBlock weBlock;
     private TypeSpec.Builder mBuilder;
     private static final Map<String,WeBlock> clzzBlockMap=new LinkedHashMap<>();
-    private List<WeMethod> methods=new LinkedList<>();
 
     public WeClass(int modifier,String pkg,String name){
         this.mClassName=name;

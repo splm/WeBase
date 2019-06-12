@@ -7,11 +7,9 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.element.Modifier;
-import javax.lang.model.type.TypeMirror;
 
 import me.splm.app.inject.processor.component.Utils.PackageUtils;
 import me.splm.app.inject.processor.component.Utils.TextUtils;
-import me.splm.app.inject.processor.component.proxy.AbsGenerateJavaAction;
 import me.splm.app.inject.processor.log.Logger;
 import me.splm.app.inject.processor.log.LoggerFactory;
 
@@ -25,9 +23,22 @@ public class WeVar {
     private FieldSpec mFieldSpec;
     private int mModifier;
     private Object mIllusionValue;
+    private String mTAG;//TODO TAG标签需要设置一个默认值
     private FieldSpec.Builder mBuilder;
 
+    public String mExtraForString1;
+    public String mExtraForString2;
+
+    public int mExtraForInt1;
+    public int mExtraForInt2;
+
+    public Object mExtraForAll;
+
     protected static final Logger LOGGER= LoggerFactory.getLogger(WeVar.class);
+
+    public static final String SINGLE="SINGLE";
+    public static final String GROUP="GROUP";
+    public static final String PARAMS="parameters";
 
     /**
      * When you wanna transport a temporary value to CodeAssistant class,you may call this method.
@@ -35,7 +46,7 @@ public class WeVar {
      * @param value
      */
     public WeVar(Object value) {
-        init(value);
+        initPortableValue(value);
     }
 
     public WeVar(Class<?> typeClass,String fieldName){
@@ -43,12 +54,17 @@ public class WeVar {
     }
 
     public WeVar(TypeName typeName,String fieldName){
-        this(WeMod.PRIVATE,typeName,fieldName);
+        this(WeMod.PRIVATE,typeName,fieldName,null);
     }
 
     public WeVar(int modifier,TypeName typeName,String fieldName){
+        this(modifier,typeName,fieldName,null);
+    }
+
+    public WeVar(int modifier,TypeName typeName,String fieldName,Object value){
         this(modifier,PackageUtils.split(typeName.toString())[0],PackageUtils.split(typeName.toString())[1],fieldName);
         set(null,typeName);
+        initPortableValue(value);
     }
 
     public WeVar(int modifier,Class<?> typeClass,String fieldName){
@@ -65,6 +81,10 @@ public class WeVar {
 
     public WeVar(String pkg,String typeName,String fieldName){
         this(WeMod.PUBLIC,pkg,typeName,fieldName);//TODO ???
+    }
+
+    public void addTAG(String tag){
+        this.mTAG=tag;
     }
 
     private void set(Class<?> clzz,TypeName typeName){
@@ -100,7 +120,11 @@ public class WeVar {
         return ParameterSpec.builder(toClassType(),mFieldName).build();
     }
 
-    private void init(Object value){
+    /**
+     * 初始化WeVar的携带值，并非变量初始化值
+     * @param value
+     */
+    public void initPortableValue(Object value){
         this.mIllusionValue=value;
     }
 
