@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'//jitpack打包需要
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':weannotation')

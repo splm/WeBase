@@ -1,63 +1,82 @@
 package com.jc.android.baselib.manager;
 
+import android.util.Log;
+
 /**
  * You can use this class to get the Manager which you like.
  */
 public enum GlobalManagerManual {
 
     /*****UIlayerManager******/
-    findUIlayerManager(){
+    findUIlayerManager() {
         @Override
         public UILayerManager searchManager() {
             return (UILayerManager) GlobalManagerManual.getManager().findManagerByTag(UILayerManager.class);
         }
     },
-    findFragmentCoreManager(){
+    findFragmentCoreManager() {
         @Override
         public FragmentCoreManager searchManager() {
-            return (FragmentCoreManager) GlobalManagerManual.exchangeUIlayer().findManagerByTag(FragmentCoreManager.class);
+            return (FragmentCoreManager) ((UILayerManager) (findUIlayerManager.searchManager())).findManagerByTag(FragmentCoreManager.class);
         }
     },
-    findActivityCoreManager(){
+    findActivityCoreManager() {
         @Override
         public ActivityCoreManager searchManager() {
-            return (ActivityCoreManager)GlobalManagerManual.exchangeUIlayer().findManagerByTag(ActivityCoreManager.class);
+            Log.e("***********", "searchManager: findUIlayerManager.searchManager()"+findUIlayerManager.searchManager());
+            return (ActivityCoreManager) ((UILayerManager) (findUIlayerManager.searchManager())).findManagerByTag(ActivityCoreManager.class);
         }
     },
 
-    /**Get your custom manager*/
-    findCustomManager(){
+    /**
+     * Get your custom manager
+     */
+    findCustomManager() {
         @Override
-        public IManagerMarker searchManager() {
+        public <T extends IManagerMarker> T searchManager() {
             return null;
         }
 
-        @Override
-        public IManagerMarker searchManager(Class<? extends IManagerMarker> clazz) {
-            return GlobalManagerManual.exchangeUIlayer().findManagerByTag(clazz);
+        public <T extends IManagerMarker> T searchManager(Class<? extends IManagerMarker> clazz) {
+            return (T) GlobalManagerManual.getManager().findManagerByTag(clazz);
         }
     },
 
-    /*****LocalFilesManager******/
-    findLocalFilesManager(){
+    /*****ConfigFilesManager******/
+    findConfigFilesManager() {
         @Override
-        public IManagerMarker searchManager() {
-            return GlobalManagerManual.getManager().findManagerByTag(LocalFilesManager.class);
+        public ConfigFilesManager searchManager() {
+            return (ConfigFilesManager) GlobalManagerManual.getManager().findManagerByTag(ConfigFilesManager.class);
         }
     },
-    ;
-    public abstract IManagerMarker searchManager();
-    protected IManagerMarker searchManager(Class<? extends IManagerMarker> clazz){
+
+    /***FindRequestManager***/
+    findRequestRemoteManager() {
+        @Override
+        public RequestRemoteManager searchManager() {
+            return (RequestRemoteManager) GlobalManagerManual.getManager().findManagerByTag(RequestRemoteManager.class);
+        }
+    };
+
+    public abstract <T extends IManagerMarker> T searchManager();
+
+    protected <T extends IManagerMarker> T searchManager(Class<? extends IManagerMarker> clazz) {
         return null;
     }
-    private static GlobalManager getManager(){
+
+    private static GlobalManager getManager() {
         return GlobalManager.getInstance();
     }
-    private static UILayerManager exchangeUIlayer(){
-        return ((UILayerManager)(findUIlayerManager.searchManager()));
+
+    private static UILayerManager exchangeUIlayer() {
+        return findUIlayerManager.searchManager();
     }
 
-    private static LocalFilesManager exchangeLocalFiles(){
-        return ((LocalFilesManager)(findLocalFilesManager.searchManager()));
+    private static ConfigFilesManager exchangeLocalFiles() {
+        return findConfigFilesManager.searchManager();
+    }
+
+    private static RequestRemoteManager exchangeRequestRemote() {
+        return findRequestRemoteManager.searchManager();
     }
 }

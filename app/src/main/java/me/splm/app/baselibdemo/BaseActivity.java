@@ -14,7 +14,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WeWorkersProxy.bind(this);
-        ActivityCoreManager activityCoreManager=(ActivityCoreManager) GlobalManagerManual.findActivityCoreManager.searchManager();
+        ActivityCoreManager activityCoreManager=GlobalManagerManual.findActivityCoreManager.searchManager();
         activityCoreManager.addActivity(this);
     }
 

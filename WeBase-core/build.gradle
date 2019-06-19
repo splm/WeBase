@@ -36,4 +36,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'
     api project(':weannotation-processor')
+    api 'com.github.splm:WePermission:0.0.1'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
 }
