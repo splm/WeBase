@@ -7,6 +7,7 @@ import com.jc.android.baselib.manager.ActivityCoreManager;
 import com.jc.android.baselib.manager.ConfigFilesManager;
 import com.jc.android.baselib.manager.FragmentCoreManager;
 import com.jc.android.baselib.manager.GlobalManager;
+import com.jc.android.baselib.manager.HttpRequestConfig;
 import com.jc.android.baselib.manager.SharePreferenceConfig;
 import com.jc.android.baselib.manager.UILayerManager;
 
@@ -31,14 +32,13 @@ public class MainApplication extends Application {
                 .join("key_1",1000)
                 .join("key_2",2000)
                 .build();
-        /*SharePreferenceConfig sharePreferenceConfig2= new SharePreferenceConfig.Builder()
-                .init(this,"cache_2")
-                .join("key_2_1",3000)
-                .join("key_2_2",4000)
-                .build();*/
+        HttpRequestConfig httpRequestConfig=new HttpRequestConfig.Builder()
+                .httpPort(80)
+                .httpsPort(443)
+                .hostUrl("http://www.app.splm.me/api")
+                .isFixWhenException(true).build();
         localFilesManager.registConfig(sharePreferenceConfig);
-
-        Log.e("********", "testManager: "+localFilesManager.showAllManagerCount());
+        localFilesManager.registConfig(httpRequestConfig);
 
         GlobalManager.getInstance().registManager(localFilesManager);
         GlobalManager.getInstance().registManager(uiLayerManager);

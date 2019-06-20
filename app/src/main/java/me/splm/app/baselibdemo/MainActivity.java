@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.jc.android.baselib.manager.ConfigFilesManager;
+import com.jc.android.baselib.manager.HttpRequestConfig;
 import com.jc.android.baselib.manager.IWorkshop;
 import com.jc.android.baselib.manager.InformationDesk;
 import com.jc.android.baselib.manager.SharePreferenceConfig;
 
 import me.splm.app.auto.WeMainActivity_Beadle;
 import me.splm.app.auto.WeMainActivity_Porter;
+import me.splm.app.core.component.http.RequestServer;
 import me.splm.app.inject.annotation.WeInjectBeadle;
 import me.splm.app.inject.annotation.WeInjectPorter;
 
@@ -23,7 +25,8 @@ public class MainActivity extends BaseActivity {
 
     @WeInjectPorter(viewID = R.id.open_1_act_btn)
     public Button mButton;
-
+    @WeInjectPorter(viewID = R.id.open_2_act_btn)
+    public Button mloadBtn;
     //@WeInjectPorter(viewID = R.id.layout_1_vs)
     public ViewStub mViewStub;
 
@@ -51,17 +54,22 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         //mStubView=mViewStub.inflate();
-        IWorkshop workshop=new InformationDesk();
-        final ConfigFilesManager localFilesManager =workshop.catchManagerOfConfigFile();
-        final SharePreferenceConfig config=localFilesManager.getSharePreferenceConfig();
-        config.putValue("key_1", 3000);
+        IWorkshop workshop = new InformationDesk();
+        final ConfigFilesManager localFilesManager = workshop.catchManagerOfConfigFile();
+        final SharePreferenceConfig config = localFilesManager.getSharePreferenceConfig();
+        final HttpRequestConfig httpRequestConfig = localFilesManager.getHttpRequestConfig();
+        config.putValueWhenNew("key_3", httpRequestConfig.getHostUrl());
+        RequestServer.init(httpRequestConfig);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.e("***********", "onClick: " + config.getValue("key_1", 1)
-                        + "******"
-                        + config.getValue("key_2", 2));
+                config.putValue("key_3", "http://www.baidu.com/api");
+            }
+        });
+        mloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("**********", "onClick: " + config.getValue("key_3", "tmp"));
             }
         });
         /*getBinding().open1ActBtn.setOnClickListener(new View.OnClickListener() {

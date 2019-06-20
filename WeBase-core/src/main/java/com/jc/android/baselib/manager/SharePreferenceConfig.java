@@ -17,12 +17,12 @@ public class SharePreferenceConfig implements IConfigMarker {
     private SPUtils mUtils;
 
     private SharePreferenceConfig(Builder builder) {
-        inject(builder.context,builder.fileName);
+        inject(builder.context, builder.fileName);
     }
 
-    private void inject(Context context,String fileName) {
+    private void inject(Context context, String fileName) {
         mUtils = UtilsFactory.getInstance().getCommUtils(UtilsFactory.UtilsMarker.SharePreference);
-        mUtils.init(context,fileName);
+        mUtils.init(context, fileName);
         for (Map.Entry<String, Object> entry : mConfigMap.entrySet()) {
             String k = entry.getKey();
             Object v = entry.getValue();
@@ -36,9 +36,9 @@ public class SharePreferenceConfig implements IConfigMarker {
         Object value;
         Context context;
 
-        public Builder init(Context context,String fileName) {
+        public Builder init(Context context, String fileName) {
             this.context = context;
-            this.fileName=fileName;
+            this.fileName = fileName;
             return this;
         }
 
@@ -56,6 +56,13 @@ public class SharePreferenceConfig implements IConfigMarker {
 
     public <E> E getValue(String key, @NonNull E defaultValue) {
         return mUtils.get(key, defaultValue);
+    }
+
+    public <E> void putValueWhenNew(String key, @NonNull E defaultValue) {
+        boolean isExist = mUtils.isContains(key);
+        if (!isExist) {
+            putValue(key, defaultValue);
+        }
     }
 
     public <E> void putValue(String key, @NonNull E defaultValue) {

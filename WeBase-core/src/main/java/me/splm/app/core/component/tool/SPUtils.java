@@ -3,6 +3,7 @@ package me.splm.app.core.component.tool;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,6 +39,9 @@ public class SPUtils implements IUtilsMarker {
 
     public <E> E get(String key, E defaultValue) {
         String value = mPreference.getString(key, String.valueOf(defaultValue));
+        if(TextUtils.isEmpty(value)){
+            return defaultValue;
+        }
         if (defaultValue instanceof Integer) {
             return (E) (Integer.valueOf(value));
         } else if (defaultValue instanceof Long) {
