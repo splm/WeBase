@@ -1,4 +1,4 @@
-package com.jc.android.baselib.manager;
+package me.splm.app.core.component.manager;
 
 public class InformationDesk implements IWorkshop {
     @Override

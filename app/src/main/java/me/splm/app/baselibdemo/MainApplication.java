@@ -3,14 +3,13 @@ package me.splm.app.baselibdemo;
 import android.app.Application;
 import android.util.Log;
 
-import com.jc.android.baselib.manager.ActivityCoreManager;
-import com.jc.android.baselib.manager.ConfigFilesManager;
-import com.jc.android.baselib.manager.FragmentCoreManager;
-import com.jc.android.baselib.manager.GlobalManager;
-import com.jc.android.baselib.manager.HttpRequestConfig;
-import com.jc.android.baselib.manager.SharePreferenceConfig;
-import com.jc.android.baselib.manager.UILayerManager;
-
+import me.splm.app.core.component.manager.ActivityCoreManager;
+import me.splm.app.core.component.manager.ConfigFilesManager;
+import me.splm.app.core.component.manager.FragmentCoreManager;
+import me.splm.app.core.component.manager.GlobalManager;
+import me.splm.app.core.component.manager.HttpRequestConfig;
+import me.splm.app.core.component.manager.SharePreferenceConfig;
+import me.splm.app.core.component.manager.UILayerManager;
 import me.splm.app.inject.annotation.WeInjectInit;
 
 @WeInjectInit

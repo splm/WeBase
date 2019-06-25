@@ -3,7 +3,7 @@ package me.splm.app.core.component.http;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.jc.android.baselib.manager.HttpRequestConfig;
+import me.splm.app.core.component.manager.HttpRequestConfig;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;

@@ -1,4 +1,4 @@
-package com.jc.android.baselib.manager;
+package me.splm.app.core.component.manager;
 
 /**
  * Created by Administrator on 2017/8/22 0022.

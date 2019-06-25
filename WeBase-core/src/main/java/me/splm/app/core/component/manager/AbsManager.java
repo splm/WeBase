@@ -1,4 +1,4 @@
-package com.jc.android.baselib.manager;
+package me.splm.app.core.component.manager;
 
 import android.text.TextUtils;
 import android.util.Log;

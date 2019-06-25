@@ -3,10 +3,10 @@ package me.splm.app.core.logic.module;
 
 import android.support.annotation.NonNull;
 
-import com.jc.android.baselib.manager.ConfigFilesManager;
-import com.jc.android.baselib.manager.IWorkshop;
-import com.jc.android.baselib.manager.InformationDesk;
-import com.jc.android.baselib.manager.SharePreferenceConfig;
+import me.splm.app.core.component.manager.ConfigFilesManager;
+import me.splm.app.core.component.manager.IWorkshop;
+import me.splm.app.core.component.manager.InformationDesk;
+import me.splm.app.core.component.manager.SharePreferenceConfig;
 
 import me.splm.app.core.component.tool.UtilsFactory;
 
