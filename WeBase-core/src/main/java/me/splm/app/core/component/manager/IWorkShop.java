@@ -1,7 +1,7 @@
 package me.splm.app.core.component.manager;
 
 
-public interface IWorkshop {
+public interface IWorkShop {
     ActivityCoreManager catchManagerOfActivity();
 
     FragmentCoreManager catchManagerOfFragment();

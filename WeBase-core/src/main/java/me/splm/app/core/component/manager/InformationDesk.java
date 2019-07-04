@@ -1,6 +1,6 @@
 package me.splm.app.core.component.manager;
 
-public class InformationDesk implements IWorkshop {
+public class InformationDesk implements IWorkShop {
     @Override
     public ConfigFilesManager catchManagerOfConfigFile() {
         return GlobalManagerManual.findConfigFilesManager.searchManager();

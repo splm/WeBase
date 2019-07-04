@@ -12,11 +12,12 @@ import me.splm.app.auto.WeMainActivity_Porter;
 import me.splm.app.core.component.http.RequestServer;
 import me.splm.app.core.component.manager.ConfigFilesManager;
 import me.splm.app.core.component.manager.HttpRequestConfig;
-import me.splm.app.core.component.manager.IWorkshop;
+import me.splm.app.core.component.manager.IWorkShop;
 import me.splm.app.core.component.manager.InformationDesk;
 import me.splm.app.core.component.manager.SharePreferenceConfig;
 import me.splm.app.inject.annotation.WeInjectBeadle;
 import me.splm.app.inject.annotation.WeInjectPorter;
+import me.splm.app.wenetjudger.processor.NetManager;
 
 
 @WeInjectPorter(R.layout.activity_main)
@@ -39,6 +40,14 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         init();
         WeMainActivity_Porter.getInstance().initOtherView();
+        NetManager.getDefault().registerObserver(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NetManager.getDefault().unRegisterObserver(this);
+        NetManager.getDefault().unRegisterAllObserver();
     }
 
     @WeInjectBeadle(taskID = "id2", serial = "serial1", delay = 3000L)
@@ -53,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         //mStubView=mViewStub.inflate();
-        IWorkshop workshop = new InformationDesk();
+        IWorkShop workshop = new InformationDesk();
         final ConfigFilesManager localFilesManager = workshop.catchManagerOfConfigFile();
         final SharePreferenceConfig config = localFilesManager.getSharePreferenceConfig();
         final HttpRequestConfig httpRequestConfig = localFilesManager.getHttpRequestConfig();
@@ -86,7 +95,7 @@ public class MainActivity extends BaseActivity {
 
             }
         });*/
-        /*IWorkshop workshop=new InformationDesk();
+        /*IWorkShop workshop=new InformationDesk();
         TestUIConfig testUIConfig=new TestUIConfig();
         testUIConfig.read(workshop).getConfig().get("");*/
         /*ImageLoader imageLoader=new ImageLoader.Builder().url("").imgView(null).build();

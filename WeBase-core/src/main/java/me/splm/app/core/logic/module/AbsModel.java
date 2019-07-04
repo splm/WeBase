@@ -4,7 +4,7 @@ package me.splm.app.core.logic.module;
 import android.support.annotation.NonNull;
 
 import me.splm.app.core.component.manager.ConfigFilesManager;
-import me.splm.app.core.component.manager.IWorkshop;
+import me.splm.app.core.component.manager.IWorkShop;
 import me.splm.app.core.component.manager.InformationDesk;
 import me.splm.app.core.component.manager.SharePreferenceConfig;
 
@@ -15,7 +15,7 @@ public abstract class AbsModel implements IModel {
     private SharePreferenceConfig mSharePreferenceConfig;
 
     public AbsModel() {
-        IWorkshop workshop = new InformationDesk();
+        IWorkShop workshop = new InformationDesk();
         ConfigFilesManager configFilesManager = workshop.catchManagerOfConfigFile();
         mSharePreferenceConfig = configFilesManager.getSharePreferenceConfig();
     }

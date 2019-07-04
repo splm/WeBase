@@ -11,6 +11,7 @@ import me.splm.app.core.component.manager.HttpRequestConfig;
 import me.splm.app.core.component.manager.SharePreferenceConfig;
 import me.splm.app.core.component.manager.UILayerManager;
 import me.splm.app.inject.annotation.WeInjectInit;
+import me.splm.app.wenetjudger.processor.NetManager;
 
 @WeInjectInit
 public class MainApplication extends Application {
@@ -21,6 +22,9 @@ public class MainApplication extends Application {
     }
 
     private void testManager(){
+
+        NetManager.getDefault().init(this);
+
         UILayerManager uiLayerManager=new UILayerManager();
         uiLayerManager.registManager(new FragmentCoreManager());//TODO Caution:Some problems will appear here.
         uiLayerManager.registManager(new ActivityCoreManager());
