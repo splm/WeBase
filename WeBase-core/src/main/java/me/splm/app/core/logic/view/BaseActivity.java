@@ -35,8 +35,8 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
         WeWorkersProxy.bind(this);
     }
 
-    public void setPresenter(P presenter){
-        this.mPresenter=presenter;
+    public void setPresenter(P presenter) {
+        this.mPresenter = presenter;
     }
 
     @Override
@@ -83,17 +83,19 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //解除网络监听框架的监听
         NetManager.getDefault().unRegisterObserver(this);
+        NetManager.getDefault().unRegisterAllObserver();
     }
 
-    protected void onNetIsMissed(){
+    protected void onNetIsMissed() {
         Log.e("************", "onNetStateChanged: 网络不可用");
     }
 
     @WeNetJudger(NetType.NONE)
-    public void onNetStateChanged(@NetType String type){
+    public void onNetStateChanged(@NetType String type) {
         Log.e("********", "onNetStateChanged: 网络发生变化");
-        switch(type){
+        switch (type) {
             case NetType.AUTO:
                 Log.e("**********", "onNetStateChanged: 连接到网络");
                 break;
@@ -109,31 +111,46 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
         }
     }
 
-    @Override
-    public void jump(Class<? extends BaseActivity> clzz,Bundle bundle) {
-        jump(clzz,bundle,null );
+    private Intent generateIntent(Class<? extends BaseActivity> clzz, Bundle data, String key) {
+        Intent intent = new Intent(this, clzz);
+        intent.putExtra(key, data);
+        return intent;
+    }
+
+    private Intent generateSimpleIntent(Class<? extends BaseActivity> clzz, Bundle data) {
+        return generateIntent(clzz, data, "data");
     }
 
     @Override
-    public void jump(Class<? extends BaseActivity> clzz,Bundle data, Bundle options) {
-        Intent intent = new Intent(this, clzz);
-        intent.putExtra("data", data);
-        ActivityCompat.startActivity(this,intent,options);
+    public void jump(Class<? extends BaseActivity> clzz, Bundle bundle) {
+        jump(clzz, bundle, null);
+    }
+
+    @Override
+    public void jump(Class<? extends BaseActivity> clzz, Bundle data, Bundle options) {
+        Intent intent = generateSimpleIntent(clzz, data);
+        ActivityCompat.startActivity(this, intent, options);
+    }
+
+    @Override
+    public void jump(Class<? extends BaseActivity> clzz, Bundle data, int requestCode) {
+        jump(clzz, data, requestCode, null);
+    }
+
+    @Override
+    public void jump(Class<? extends BaseActivity> clzz, Bundle data, int requestCode, Bundle options) {
+        Intent intent = generateSimpleIntent(clzz, data);
+        ActivityCompat.startActivityForResult(this, intent, requestCode, options);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        WePermissions.onRequestPermissionResult(this, requestCode, grantResults,permissions);
+        WePermissions.onRequestPermissionResult(this, requestCode, grantResults, permissions);
     }
 
     @Override
-    public void onRequestPermissionGranted(int requestCode, @NonNull String[] permissions,boolean isAllGranted) {
-
-    }
-
-    @Override
-    public void onRequestPermissionDennied(int requestCode, @NonNull String[] permissions) {
+    public void onRequestPermissionGranted(int requestCode, @NonNull String[] permissions, boolean isAllGranted) {
 
     }
 }

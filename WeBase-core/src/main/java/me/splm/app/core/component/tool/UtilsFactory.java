@@ -30,11 +30,14 @@ public class UtilsFactory {
             return createNewInstance(CommUtils.class);
         } else if (marker == UtilsMarker.TXT) {
 
-        } else if (marker == UtilsMarker.WS) {
-        }else if(marker == UtilsMarker.SharePreference){
+        } else if(marker == UtilsMarker.SharePreference){
             return createNewInstance(SPUtils.class);
         }
         return null;
+    }
+
+    public <T extends IUtilsMarker> T getCommUtils(Class<? extends IUtilsMarker> clzz){
+        return createNewInstance(clzz);
     }
 
     private <T extends IUtilsMarker> T createNewInstance(Class<? extends IUtilsMarker> utils) {

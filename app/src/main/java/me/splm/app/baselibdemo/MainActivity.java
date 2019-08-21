@@ -40,7 +40,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         init();
         WeMainActivity_Porter.getInstance().initOtherView();
-        NetManager.getDefault().registerObserver(this);
     }
 
     @Override
@@ -48,6 +47,7 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         NetManager.getDefault().unRegisterObserver(this);
         NetManager.getDefault().unRegisterAllObserver();
+
     }
 
     @WeInjectBeadle(taskID = "id2", serial = "serial1", delay = 3000L)
@@ -80,25 +80,5 @@ public class MainActivity extends BaseActivity {
                 Log.e("**********", "onClick: " + config.getValue("key_3", "tmp"));
             }
         });
-        /*getBinding().open1ActBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookModel bookModel=new BookModel();
-                bookModel.setName("bookName");
-                bookModel.setPrice(50);
-                bookModel.setTag(1);
-                WeSecondActivity_Plumber.getInstance()
-                        .setName("hello,nerd!")
-                        .setValue(100)
-                        .setBookModel(bookModel)
-                        .start(MainActivity.this);
-
-            }
-        });*/
-        /*IWorkShop workshop=new InformationDesk();
-        TestUIConfig testUIConfig=new TestUIConfig();
-        testUIConfig.read(workshop).getConfig().get("");*/
-        /*ImageLoader imageLoader=new ImageLoader.Builder().url("").imgView(null).build();
-        ImageLoaderUtils.getInstance().loadImage(this,imageLoader);*/
     }
 }

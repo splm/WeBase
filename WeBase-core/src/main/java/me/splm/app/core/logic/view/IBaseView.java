@@ -16,4 +16,6 @@ public interface IBaseView extends View.OnClickListener {
     Bundle makeShareEle(View view, String key);
     void jump(Class<? extends BaseActivity> clzz, Bundle bundle);
     void jump(Class<? extends BaseActivity> clzz, Bundle data, Bundle options);
+    void jump(Class<? extends BaseActivity> clzz, Bundle bundle,int requestCode);
+    void jump(Class<? extends BaseActivity> clzz, Bundle bundle,int requestCode,Bundle options);
 }
