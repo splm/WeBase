@@ -30,7 +30,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetManager.getDefault().registerObserver(this);//注册网络监听器
+        NetManager.getDefault().registerObserver(getApplicationContext());//注册网络监听器
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         WeWorkersProxy.bind(this);
     }
@@ -84,7 +84,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
     protected void onDestroy() {
         super.onDestroy();
         //解除网络监听框架的监听
-        NetManager.getDefault().unRegisterObserver(this);
+        NetManager.getDefault().unRegisterObserver(getApplicationContext());
         NetManager.getDefault().unRegisterAllObserver();
     }
 
