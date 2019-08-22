@@ -16,9 +16,6 @@ import android.view.View;
 import me.splm.app.core.component.ui.ToastUtils;
 import me.splm.app.core.logic.presenter.IBasePresenter;
 import me.splm.app.inject.processor.component.proxy.WeWorkersProxy;
-import me.splm.app.wenetjudger.helper.NetType;
-import me.splm.app.wenetjudger.processor.NetManager;
-import me.splm.app.wenetjudger.processor.WeNetJudger;
 import me.splm.app.wepermission.WePermissionCallback;
 import me.splm.app.wepermission.WePermissions;
 
@@ -30,7 +27,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetManager.getDefault().registerObserver(getApplicationContext());//注册网络监听器
+        //NetManager.getDefault().registerObserver(getApplicationContext());//注册网络监听器
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         WeWorkersProxy.bind(this);
     }
@@ -84,15 +81,15 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
     protected void onDestroy() {
         super.onDestroy();
         //解除网络监听框架的监听
-        NetManager.getDefault().unRegisterObserver(getApplicationContext());
-        NetManager.getDefault().unRegisterAllObserver();
+        /*NetManager.getDefault().unRegisterObserver(getApplicationContext());
+        NetManager.getDefault().unRegisterAllObserver();*/
     }
 
     protected void onNetIsMissed() {
         Log.e("************", "onNetStateChanged: 网络不可用");
     }
 
-    @WeNetJudger(NetType.NONE)
+    /*@WeNetJudger(NetType.NONE)
     public void onNetStateChanged(@NetType String type) {
         Log.e("********", "onNetStateChanged: 网络发生变化");
         switch (type) {
@@ -109,7 +106,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatAc
                 onNetIsMissed();
                 break;
         }
-    }
+    }*/
 
     private Intent generateIntent(Class<? extends BaseActivity> clzz, Bundle data, String key) {
         Intent intent = new Intent(this, clzz);
