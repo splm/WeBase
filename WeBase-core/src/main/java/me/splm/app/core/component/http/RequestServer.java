@@ -3,16 +3,15 @@ package me.splm.app.core.component.http;
 import android.text.TextUtils;
 import android.util.Log;
 
-import me.splm.app.core.component.manager.HttpRequestConfig;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import cz.msebera.android.httpclient.HttpEntity;
+import me.splm.app.core.component.manager.HttpRequestConfig;
 
 
 public class RequestServer {
-    //TODO BaseUrl需要从Application中读取
     private static String BASE_URL;
 
     private static AsyncHttpClient client;
@@ -27,7 +26,7 @@ public class RequestServer {
         }
     }
 
-    public static void init(HttpRequestConfig config) {
+    public static final void init(HttpRequestConfig config) {
         if (config == null) {
             throw new NullPointerException("HttpRequestConfig is null");
         }
@@ -38,18 +37,42 @@ public class RequestServer {
     }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        get(url, params, responseHandler, false);
+    }
+
+    public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler, boolean isDependence) {
         checkInit();
-        client.get(getAbsoluteUrl(url), params, responseHandler);
+        if (isDependence) {
+            client.get(url, params, responseHandler);
+        } else {
+            client.get(getAbsoluteUrl(url), params, responseHandler);
+        }
     }
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        post(url, params, responseHandler, false);
+    }
+
+    public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler, boolean isDependence) {
         checkInit();
-        client.post(getAbsoluteUrl(url), params, responseHandler);
+        if (isDependence) {
+            client.get(url, params, responseHandler);
+        } else {
+            client.post(getAbsoluteUrl(url), params, responseHandler);
+        }
     }
 
     public static void post2(String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler) {
+        post2(url, entity, responseHandler, false);
+    }
+
+    public static void post2(String url, HttpEntity entity, AsyncHttpResponseHandler responseHandler, boolean isDependence) {
         checkInit();
-        client.post(null, getAbsoluteUrl(url), entity, "application/json", responseHandler);
+        if (isDependence) {
+            client.post(null, url, entity, "application/json", responseHandler);
+        } else {
+            client.post(null, getAbsoluteUrl(url), entity, "application/json", responseHandler);
+        }
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
